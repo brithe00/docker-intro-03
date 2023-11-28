@@ -1,0 +1,25 @@
+services:
+  mongodb:
+    image: mongo
+    volumes:
+      - ./data:/data/db
+  server:
+    build: ./server
+    environment:
+      WATCHPACK_POLLING: 'true'
+      CHOKIDAR_USEPOLLING: 'true'
+    ports:
+      - 5050:5000
+    command: npm run dev
+    volumes:
+      - ./server/src/:/app/src/
+  client:
+    build: ./client
+    environment:
+      WATCHPACK_POLLING: 'true'
+      CHOKIDAR_USEPOLLING: 'true'
+    ports:
+      - 8080:3000
+    command: npm start
+    volumes:
+      - ./client/src/:/app/src/
